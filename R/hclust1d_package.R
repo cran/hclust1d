@@ -1,0 +1,8 @@
+#' Package \code{hclust1d} (Hierarchical CLUSTering for 1D) is a suit of algorithms for univariate agglomerative hierarchical clustering  (with a few possible choices of a linkage function) in O(n*log n) time. The better algorithmic time complexity is paired with an efficient \code{C++} implementation.
+#'
+#' @docType package
+#' @name hclust1d
+#' @importFrom Rcpp evalCpp
+#' @useDynLib hclust1d, .registration=TRUE
+#' @exportPattern "^[[:alpha:]]+"
+NULL

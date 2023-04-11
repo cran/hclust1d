@@ -1,0 +1,14 @@
+90047750fe7968b099520b7c7bfc4103 *DESCRIPTION
+dc7d43413a14f0ac70912b8418c05b7b *NAMESPACE
+0cd073bbde24a1c4045658070aa40e25 *NEWS.md
+1f99b5292c4f6955b83d52a95f1d369a *R/RcppExports.R
+b814bf5556e32f7f0f039747b6a1a584 *R/hclust1d.R
+c136d226626b337840e30dc6576dce4e *R/hclust1d_package.R
+8c2c47b234d858e3acf86da960a08427 *R/onAttach.R
+91dd41f1372bbda96e675d35db8b6f4b *README.md
+17edfdafafa8c1bd2a3ac6d529eca5d4 *man/hclust1d.Rd
+715b784c6e9633a5a72617d84ab182f4 *src/RcppExports.cpp
+2840b7aeb466ae7099ee93a72056db59 *src/dedistance.cpp
+729e6568806a650286284d9c66af2318 *src/hclust1d_single.cpp
+c8b764e5c8288de4472277bbb4f6367a *tests/testthat.R
+6046c59a44a44689dd9d34862643b388 *tests/testthat/test-hclust1d-single.R
