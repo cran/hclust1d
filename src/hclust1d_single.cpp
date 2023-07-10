@@ -1,33 +1,9 @@
 #include <Rcpp.h>
-#include <vector>
+#include <vector>  //std::vector
+#include <numeric> //std::iota
 #include <assert.h>
+#include "order.h"
 using namespace Rcpp;
-
-void order(NumericVector & data, std::vector<int> & index) {
-  //https://stackoverflow.com/questions/17554242/how-to-obtain-the-index-permutation-after-the-sorting
-
-
-  std::iota(index.begin(), index.end(), 0);
-  sort(index.begin(), index.end(),
-       [&](const int& a, const int& b) {
-         return (data[a] < data[b]);
-       }
-  );
-}
-
-void order(std::vector<double> & data, std::vector<int> & index) {
-  //https://stackoverflow.com/questions/17554242/how-to-obtain-the-index-permutation-after-the-sorting
-
-
-  std::iota(index.begin(), index.end(), 0);
-  sort(index.begin(), index.end(),
-       [&](const int& a, const int& b) {
-         return (data[a] < data[b]);
-       }
-  );
-}
-
-
 
 // [[Rcpp::export(.hclust1d_single)]]
 List hclust1d_single(NumericVector & points) {
@@ -95,7 +71,7 @@ List hclust1d_single(NumericVector & points) {
   }
 
   std::vector<int> order_distances(points_size-1);
-  order(distances, order_distances);
+  order<double>(distances, order_distances);
   IntegerMatrix merge(points_size - 1 , 2 );
   NumericVector height(points_size - 1);
 

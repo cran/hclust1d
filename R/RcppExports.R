@@ -5,7 +5,15 @@
     .Call(`_hclust1d_dedistance`, distances, points_size)
 }
 
+.hclust1d_heapbased <- function(points, method) {
+    .Call(`_hclust1d_hclust1d_heapbased`, points, method)
+}
+
 .hclust1d_single <- function(points) {
     .Call(`_hclust1d_hclust1d_single`, points)
+}
+
+.sqrt <- function(squared_distances) {
+    .Call(`_hclust1d_sqrt`, squared_distances)
 }
 
