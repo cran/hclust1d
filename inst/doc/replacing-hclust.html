@@ -355,8 +355,24 @@ in your script or markdown notebook:</p>
 <p>In case of packages you need to import <code>hclust1d</code> in your
 <code>DESCRIPTION</code> file.</p>
 </div>
-<div id="prerequisities" class="section level1">
-<h1>Prerequisities</h1>
+<div id="why-bother" class="section level1">
+<h1>Why bother?</h1>
+<p>The main reason a programmer might want to replace
+<code>stats:hclust</code> calls with <code>hclust1d</code> in case of
+clustering 1D points is that the computational complexity of
+<code>hclust1d</code> is <span class="math inline">\(\mathcal{O}(n\log
+n)\)</span>, while it is at least quadratic (and <span class="math inline">\(\mathcal{O}(n^2\log n)\)</span> for case of
+general linkage) for multidimensional algorithms.</p>
+<p>The better algorithmic time complexity (compared to multidimensional
+hierarchical clustering) paired with its efficient <code>C++</code>
+implementation make <code>hclust1d</code> very fast. The computational
+time beats <code>stats::hclust</code> on all sizes of data and is <em>en
+par</em> with <code>fastcluster::hclust</code> with small data sizes.
+However, it is of orders of magnitude faster than both multivariate
+clustering routines on larger data sizes.</p>
+</div>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
 <div id="compatibility-of-hclust1d-with-statshclust" class="section level3">
 <h3>Compatibility of <code>hclust1d</code> with
 <code>stats::hclust</code></h3>
@@ -379,9 +395,9 @@ linkage functions. This is implicit. The same input is accepted in
 <code>hclust1d</code> (with <code>distance</code> and
 <code>squared</code> arguments explicitly set to
 <code>TRUE</code>).</p></li>
-<li><p>The object returned from
-<code>returned</code>hclust1d<code>call is the same S3 class as the result of</code>stats::hclust<code>, namely</code>hclust`
-S3 class.</p></li>
+<li><p>The object returned from <code>hclust1d</code> call is the same
+S3 class as the result of <code>stats::hclust</code>, namely
+<code>hclust</code> S3 class.</p></li>
 <li><p>The heights returned from <code>hclust1d</code> are calculated
 the same, as in <code>stats::hclust</code>:</p>
 <ol style="list-style-type: lower-alpha">
@@ -453,9 +469,13 @@ arguments to relevant <code>stats::dist</code> calls:</p>
 <code>centroid</code> or <code>median</code> linkage functions</h1>
 <p><strong>This section DOES NOT apply to <em>ward.D2</em> linkage
 function, despite the similarity in its name</strong>.</p>
-<p>As can be seen from the above sections, to replace a
-<code>stats::hclust</code> call with <code>hclust1d</code> for 1D data,
-one needs to replace any call to</p>
+<p>For those three linkage functions (<code>ward.D</code>,
+<code>centroid</code> or <code>median</code>) the default hierarchical
+clustering routine <code>stats::hclust</code> requires <em>squared</em>
+distance structure calculated on original points. Consequently, as can
+be seen from the sections above, to replace a <code>stats::hclust</code>
+call with <code>hclust1d</code> for 1D data, one needs to replace any
+call to</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">hclust</span>(squared_d, <span class="at">method =</span> linkage_function_name, <span class="at">members =</span> <span class="cn">NULL</span>)</span></code></pre></div>
 <p>by a call to</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">hclust1d</span>(squared_d, <span class="at">method =</span> linkage_function_name, <span class="at">distance =</span> <span class="cn">TRUE</span>, <span class="at">square =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
@@ -485,15 +505,17 @@ this variable <code>points</code>), the computation of
 </ul>
 </div>
 </div>
-<div id="replacing-statshclust-in-case-of-all-other-linkage-functions-beside-ward.d-centroid-or-median" class="section level1">
+<div id="replacing-statshclust-in-case-of-all-other-linkage-functions-besides-ward.d-centroid-or-median" class="section level1">
 <h1>Replacing <code>stats::hclust</code> in case of all other linkage
-functions, beside <code>ward.D</code>, <code>centroid</code> or
+functions, besides <code>ward.D</code>, <code>centroid</code> or
 <code>median</code></h1>
 <p><strong>This section applies to, among others, <em>ward.D2</em>
 linkage function</strong>.</p>
-<p>As can be seen from the above sections, to replace a
-<code>stats::hclust</code> call with <code>hclust1d</code> for 1D data,
-one needs to replace any call to</p>
+<p>For those remaining linkage functions <code>stats::hclust</code>
+accepts regular (<em>unsquared</em>) distance structure calculated on
+original points. Consequently, as can be seen from the sections above,
+to replace a <code>stats::hclust</code> call with <code>hclust1d</code>
+for 1D data, one needs to replace any call to</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">hclust</span>(d, <span class="at">method =</span> linkage_function_name, <span class="at">members =</span> <span class="cn">NULL</span>)</span></code></pre></div>
 <p>by a call to</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">hclust1d</span>(d, <span class="at">method =</span> linkage_function_name, <span class="at">distance =</span> <span class="cn">TRUE</span>)</span></code></pre></div>

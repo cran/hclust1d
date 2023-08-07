@@ -1,4 +1,8 @@
 
+# hclust1d 0.1.1
+
+- Fixing typos and rephrasing vignettes
+
 # hclust1d 0.1.0
 
 - Added a vignette on replacing `stats::hclust` with `hclust1d`
